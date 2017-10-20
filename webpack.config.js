@@ -24,6 +24,7 @@ module.exports = {
         // hot:true,
         contentBase:__dirname + '/public',
         host: 'localhost', // default
-        port: 3000 // default
+        port: 3000, // default
+        historyApiFallback: true
     }
 };

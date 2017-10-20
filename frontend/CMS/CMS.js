@@ -18,7 +18,7 @@ export default class CMS extends React.Component {
 
     };
 
-    componenDidMount() {
+    componentDidMount() {
         fetch(this.props.path)
             .then(res => {
                 if (res.status >= 400) {
@@ -32,35 +32,41 @@ export default class CMS extends React.Component {
                 })
             })
             .catch(error => {
-                throw new Error('An error occurred while loading the config')
+                throw new Error('An error occurred while loading the config - '  + error)
             })
     }
 
     createListRoute() {
         return this.state.config.map((item, i)=>{
+
             const Element = (props) => (
-                <Bundle path={`./${item.path}`}>
+                <Bundle path={"./" + item.path}>
                     {(Element) => <Element {...props}/>}
                 </Bundle>
             );
-            return <Route path={item.path} component={Element}/>
+
+            return <Route key={item.id} path={'/' + item.path} component={Element}/>
         })
     }
 
     get markup() {
-
         return (
             <Router>
-                {this.createListRoute()}
+                <div>
+                    {this.createListRoute()}
+                </div>
             </Router>
         )
+    }
 
+    get pleaseWait() {
+        return <h3>please wait for loading file</h3>
     }
 
     render() {
 
         return (
-            this.state.config ? this.markup : null
+            this.state.config ? this.markup : this.pleaseWait
         )
 
     }

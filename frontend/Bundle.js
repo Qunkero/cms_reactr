@@ -19,7 +19,7 @@ class Bundle extends Component {
     load() {
         this.setState({
             mod: null
-        })
+        });
         import(`${this.props.path}`).then((mod)=>{
             this.setState({
                 // handle both es imports and cjs
