@@ -38,8 +38,12 @@ export default class CMS extends React.Component {
 
     createListRoute() {
         return this.state.config.map((item, i)=>{
-
-
+            const Element = (props) => (
+                <Bundle path={`./${item.path}`}>
+                    {(Element) => <Element {...props}/>}
+                </Bundle>
+            );
+            return <Route path={item.path} component={Element}/>
         })
     }
 

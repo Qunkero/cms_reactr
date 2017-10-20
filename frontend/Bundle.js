@@ -29,7 +29,6 @@ class Bundle extends Component {
             throw new Error('an error occurred while loading the element - ' + this.props.path, e)
         })
 
-
     }
 
     render() {
