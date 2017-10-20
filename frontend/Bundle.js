@@ -7,7 +7,7 @@ class Bundle extends Component {
     }
 
     componentWillMount() {
-        this.load(this.props)
+        this.load()
     }
 
     componentWillReceiveProps(nextProps) {
@@ -16,16 +16,20 @@ class Bundle extends Component {
         }
     }
 
-    load(props) {
+    load() {
         this.setState({
             mod: null
         })
-        props.load((mod) => {
+        import(`${this.props.path}`).then((mod)=>{
             this.setState({
                 // handle both es imports and cjs
                 mod: mod.default ? mod.default : mod
             })
+        }).catch((e)=>{
+            throw new Error('an error occurred while loading the element - ' + this.props.path, e)
         })
+
+
     }
 
     render() {

@@ -8,27 +8,23 @@ import {
 
 import Bundle from './Bundle'
 
-import loadAbout from 'bundle-loader?lazy!./About'
-import loadDashboard from 'bundle-loader?lazy!./Home'
-import loadList from 'bundle-loader?lazy!./List'
-
 const About = (props) => (
-    <Bundle load={loadAbout}>
+    <Bundle path="./About">
         {(About) => <About {...props}/>}
     </Bundle>
-)
+);
 
 const List = (props) => (
-    <Bundle load={loadList}>
+    <Bundle path="./List">
         {(List) => <List {...props}/>}
     </Bundle>
-)
+);
 
 const Dashboard = (props) => (
-    <Bundle load={loadDashboard}>
+    <Bundle path="./Home">
         {(Dashboard) => <Dashboard {...props}/>}
     </Bundle>
-)
+);
 
 class App extends React.Component {
 
