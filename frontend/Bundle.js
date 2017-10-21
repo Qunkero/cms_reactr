@@ -10,12 +10,6 @@ class Bundle extends Component {
         this.load()
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.load !== this.props.load) {
-            this.load(nextProps)
-        }
-    }
-
     load() {
         this.setState({
             mod: null
