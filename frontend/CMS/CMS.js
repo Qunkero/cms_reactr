@@ -2,7 +2,8 @@ import React from 'react'
 import {
     BrowserRouter as Router,
     Route,
-    Link
+    Redirect,
+    Switch
 } from 'react-router-dom'
 
 import Bundle from '../Bundle'
@@ -14,9 +15,8 @@ export default class CMS extends React.Component {
         config: null
     };
 
-    maxOrder = {
-
-    };
+    maxOrderItem = null;
+    maxOrder = -1;
 
     componentDidMount() {
         fetch(this.props.path)
@@ -39,21 +39,35 @@ export default class CMS extends React.Component {
     createListRoute() {
         return this.state.config.map((item, i)=>{
 
+            if (this.maxOrder < item.order) {
+                this.maxOrder = item.order;
+                this.maxOrderItem = i;
+            }
+
             const Element = (props) => (
                 <Bundle path={"./" + item.path}>
                     {(Element) => <Element {...props}/>}
                 </Bundle>
             );
 
-            return <Route key={item.id} path={'/' + item.path} component={Element}/>
+            return <Route exact key={item.id} path={'/' + item.path} component={Element}/>
         })
+    }
+
+    createRouteWithRedirect() {
+        return <Route render={()=>(
+            <Redirect to={"/" + this.state.config[this.maxOrderItem].path}/>
+        )}/>
     }
 
     get markup() {
         return (
             <Router>
                 <div>
-                    {this.createListRoute()}
+                    <Switch>
+                        {this.createListRoute()}
+                        {this.createRouteWithRedirect()}
+                    </Switch>
                 </div>
             </Router>
         )
