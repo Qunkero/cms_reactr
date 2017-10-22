@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import {
     BrowserRouter as Router,
     Route,
@@ -15,11 +16,14 @@ export default class CMS extends React.Component {
         config: null
     };
 
+    static propTypes = {
+        path: PropTypes.string.isRequired
+    };
+
     maxOrderItem = null;
     maxOrder = -1;
 
     componentDidMount() {
-        if (!this.props.path) throw new Error('you must supply the path to config file to start work with app')
 
         fetch(this.props.path)
             .then(res => {

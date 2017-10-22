@@ -1,10 +1,16 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+
 
 class Bundle extends Component {
     state = {
         // short for "module" but that's a keyword in js, so "mod"
         mod: null
-    }
+    };
+
+    static propTypes = {
+        path: PropTypes.string.isRequired
+    };
 
     componentWillMount() {
         this.load()
