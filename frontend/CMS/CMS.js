@@ -54,18 +54,18 @@ export default class CMS extends React.Component {
         return this.state.config.map((item)=>{
 
             const Element = (props) => (
-                <Bundle path={"./" + item.path}>
+                <Bundle path={`./${item.path}`}>
                     {(Element) => <Element {...props}/>}
                 </Bundle>
             );
 
-            return <Route exact key={item.id} path={'/' + item.path} component={Element}/>
+            return <Route exact key={item.id} path={`/${item.path}`} component={Element}/>
         })
     }
 
     createRouteWithRedirect() {
         return <Route render={()=>(
-            <Redirect to={"/" + this.state.config[0].path}/>
+            <Redirect to={`/${this.state.config[0].path}`}/>
         )}/>
     }
 
