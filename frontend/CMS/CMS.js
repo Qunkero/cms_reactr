@@ -4,7 +4,8 @@ import {
     BrowserRouter as Router,
     Route,
     Redirect,
-    Switch
+    Switch,
+    Link
 } from 'react-router-dom'
 
 import Bundle from '../Bundle'
@@ -20,7 +21,6 @@ export default class CMS extends React.Component {
         path: PropTypes.string.isRequired
     };
 
-
     componentDidMount() {
 
         fetch(this.props.path)
@@ -31,25 +31,27 @@ export default class CMS extends React.Component {
                 return res.json()
             })
             .then((response)=>{
-                this.setState({
-                    config: response
-                })
+                this.sortConfig(response)
             })
             .catch(error => {
                 throw new Error('An error occurred while loading the config - '  + error)
             })
     }
 
-    checkConfigFile() {
-        if (!Array.isArray(this.state.config)) {
+
+    sortConfig(response) {
+        if (!Array.isArray(response)) {
             throw new Error('the config file must be array')
         }
+
+        this.setState({
+            config: response.sort((a, b)=> a.order - b.order)
+        })
     }
 
     createListRoute() {
-        this.checkConfigFile();
 
-        return this.state.config.map((item, i)=>{
+        return this.state.config.map((item)=>{
 
             const Element = (props) => (
                 <Bundle path={"./" + item.path}>
@@ -67,11 +69,25 @@ export default class CMS extends React.Component {
         )}/>
     }
 
+    createLinks() {
+        return this.state.config.map((item)=>{
+            return (
+                <li key={item.id}>
+                    <Link to={`/${item.path}`}>{item.title}</Link>
+                </li>
+            )
+        })
+    }
+
 
     get markup() {
         return (
             <Router>
                 <div>
+                    <ul>
+                        {this.createLinks()}
+                    </ul>
+                    <hr/>
                     <Switch>
                         {this.createListRoute()}
                         {this.createRouteWithRedirect()}
@@ -86,7 +102,6 @@ export default class CMS extends React.Component {
     }
 
     render() {
-
         return (
             this.state.config ? this.markup : this.pleaseWait
         )
