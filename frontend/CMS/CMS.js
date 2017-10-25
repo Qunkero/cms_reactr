@@ -20,8 +20,6 @@ export default class CMS extends React.Component {
         path: PropTypes.string.isRequired
     };
 
-    maxOrderItem = null;
-    maxOrder = -1;
 
     componentDidMount() {
 
@@ -53,12 +51,6 @@ export default class CMS extends React.Component {
 
         return this.state.config.map((item, i)=>{
 
-            //determining tab with the highest order to show it by default
-            if (this.maxOrder < item.order) {
-                this.maxOrder = item.order;
-                this.maxOrderItem = i;
-            }
-
             const Element = (props) => (
                 <Bundle path={"./" + item.path}>
                     {(Element) => <Element {...props}/>}
@@ -71,9 +63,10 @@ export default class CMS extends React.Component {
 
     createRouteWithRedirect() {
         return <Route render={()=>(
-            <Redirect to={"/" + this.state.config[this.maxOrderItem].path}/>
+            <Redirect to={"/" + this.state.config[0].path}/>
         )}/>
     }
+
 
     get markup() {
         return (
