@@ -12,7 +12,7 @@ class Bundle extends Component {
         path: PropTypes.string.isRequired
     };
 
-    componentWillMount() {
+    componentDidMount() {
         this.load()
     }
 
